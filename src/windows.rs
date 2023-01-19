@@ -1,7 +1,6 @@
 #![warn(clippy::pedantic)]
 #![warn(clippy::nursery)]
 use std::ffi::OsString;
-use std::fmt;
 use std::fs::File;
 use std::os::windows::ffi::OsStringExt;
 use std::ptr;
@@ -16,7 +15,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
     // todo: This is a fraction of a kB, should this be stack allocated instead?
     let mut name_buf = vec![0; MAX_PATH + 1];
 
-    let h_file = self.as_raw_handle();
+    let h_file = file.as_raw_handle();
     let buf_ptr = name_buf.as_mut_ptr();
     let buf_len = name_buf.len().try_into().unwrap();
 
@@ -47,7 +46,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         // it returns a non-zero value.
         let fs_name = OsString::from_wide(
             name_buf
-            .split_inclusive(|x| *x == 0)
+            .split(|x| *x == 0)
             .next()
             .expect("GetVolumeInformationByHandleW returned an empty string for lpFileSystemNameBuffer")
         );

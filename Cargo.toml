@@ -15,7 +15,7 @@ readme = "README.md"
 [dependencies]
 cfg-if = "1.0.0"
 
-[target.'cfg(linux)'.dependencies]
+[target.'cfg(target_os = "linux")'.dependencies]
 libc = "0.2.139"
 
 [target.'cfg(unix)'.dependencies]

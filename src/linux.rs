@@ -82,7 +82,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         }
         libc::F2FS_SUPER_MAGIC => None, // todo
         libc::FUSE_SUPER_MAGIC => Some(FileSystemName::Fusefs),
-        libc::FUSE_CTL_SUPER_MAGIC => None, // todo
+        FUSE_CTL_SUPER_MAGIC => None, // todo
         libc::FUTEXFS_SUPER_MAGIC => None, // todo
         HFS_SUPER_MAGIC => None, // todo
         libc::HOSTFS_SUPER_MAGIC => None, // todo

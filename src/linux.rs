@@ -7,18 +7,22 @@ use rustix::fs::fstatfs;
 
 use crate::{FileSystemKind, FileSystemName};
 
+const AAFS_MAGIC: c_long = 0x5a3c69f0;
 const ANON_INODE_FS_MAGIC: c_long = 0x9041934;
 const BDEVFS_MAGIC: c_long = 0x62646576;
 const BEFS_SUPER_MAGIC: c_long = 0x42465331;
 const BFS_MAGIC: c_long = 0x1badface;
 const BINFMTFS_MAGIC: c_long = 0x42494e4d;
 const BTRFS_TEST_MAGIC: c_long = 0x73727279;
+const CGROUP2_SUPER_MAGIC: c_long = 0x63677270;
 const CIFS_MAGIC_NUMBER: c_long = 0xff534d42;
 const COH_SUPER_MAGIC: c_long = 0x12ff7b7;
+const CONFIGFS_MAGIC: c_long = 0x62656570;
 const DEVFS_SUPER_MAGIC: c_long = 0x1373;
 const EFIVARFS_MAGIC: c_long = 0xde5e81e4;
 const EXT_SUPER_MAGIC: c_long = 0x137d;
 const EXT2_OLD_SUPER_MAGIC: c_long = 0xef51;
+const FUSE_CTL_SUPER_MAGIC: c_long = 0x65735543;
 const HFS_SUPER_MAGIC: c_long = 0x4244;
 const JFS_SUPER_MAGIC: c_long = 0x3153464a;
 const MQUEUE_MAGIC: c_long = 0x19800202;
@@ -46,6 +50,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
     let f_type = statfs.f_type;
 
     let recognized = match f_type {
+        AAFS_MAGIC => Some(FileSystemName::AppArmorFs),
         libc::ADFS_SUPER_MAGIC => None, // todo
         libc::AFFS_SUPER_MAGIC => None, // todo
         libc::AFS_SUPER_MAGIC => None, // todo
@@ -54,19 +59,19 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         BDEVFS_MAGIC => None, // todo
         BEFS_SUPER_MAGIC => None, // todo
         BFS_MAGIC => None, // todo
-        BINFMTFS_MAGIC => None, // todo
+        BINFMTFS_MAGIC => Some(FileSystemName::Binfmtfs),
         libc::BPF_FS_MAGIC => None, // todo
         libc::BTRFS_SUPER_MAGIC => None, // todo
         BTRFS_TEST_MAGIC => None, // todo
-        libc::CGROUP_SUPER_MAGIC => None, // todo
-        libc::CGROUP2_SUPER_MAGIC => None, // todo
+        libc::CGROUP_SUPER_MAGIC => Some(FileSystemName::Cgroup),
+        libc::CGROUP2_SUPER_MAGIC => Some(FileSystemName::Cgroup2),
         CIFS_MAGIC_NUMBER => None, // todo
         libc::CODA_SUPER_MAGIC => None, // todo
         COH_SUPER_MAGIC => None, // todo
         libc::CRAMFS_MAGIC => None, // todo
         libc::DEBUGFS_MAGIC => None, // todo
         DEVFS_SUPER_MAGIC => Some(FileSystemName::Devfs),
-        libc::DEVPTS_SUPER_MAGIC => None, // todo
+        libc::DEVPTS_SUPER_MAGIC => Some(FileSystemName::Devpts),
         libc::ECRYPTFS_SUPER_MAGIC => None, // todo
         EFIVARFS_MAGIC => None, // todo
         libc::EFS_SUPER_MAGIC => None, // todo
@@ -77,6 +82,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         }
         libc::F2FS_SUPER_MAGIC => None, // todo
         libc::FUSE_SUPER_MAGIC => Some(FileSystemName::Fusefs),
+        libc::FUSE_CTL_SUPER_MAGIC => None, // todo
         libc::FUTEXFS_SUPER_MAGIC => None, // todo
         HFS_SUPER_MAGIC => None, // todo
         libc::HOSTFS_SUPER_MAGIC => None, // todo
@@ -96,13 +102,13 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         libc::NCP_SUPER_MAGIC => None, // todo
         libc::NFS_SUPER_MAGIC => Some(FileSystemName::Nfs),
         libc::NILFS_SUPER_MAGIC => None, // todo
-        libc::NSFS_MAGIC => None, // todo
+        libc::NSFS_MAGIC => Some(FileSystemName::Nsfs),
         NTFS_SB_MAGIC => None, // todo
         libc::OCFS2_SUPER_MAGIC => None, // todo
         libc::OPENPROM_SUPER_MAGIC => None, // todo
         libc::OVERLAYFS_SUPER_MAGIC => None, // todo
         PIPEFS_MAGIC => None, // todo
-        libc::PROC_SUPER_MAGIC => None, // todo
+        libc::PROC_SUPER_MAGIC => Some(FileSystemName::Procfs),
         PSTOREFS_MAGIC => None, // todo
         libc::QNX4_SUPER_MAGIC => None, // todo
         libc::QNX6_SUPER_MAGIC => None, // todo
@@ -119,7 +125,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         libc::SYSFS_MAGIC => None, // todo
         SYSV2_SUPER_MAGIC => None, // todo
         SYSV4_SUPER_MAGIC => None, // todo
-        libc::TMPFS_MAGIC => None, // todo
+        libc::TMPFS_MAGIC => Some(FileSystemName::Tmpfs),
         libc::TRACEFS_MAGIC => None, // todo
         libc::UDF_SUPER_MAGIC => None, // todo
         UFS_MAGIC => Some(FileSystemName::Ufs),

@@ -24,10 +24,15 @@ pub enum FileSystemKind {
 //   i.e. should they all end in "fs"?
 //   Or should we stick to the common renderings of each fs?
 pub enum FileSystemName {
+    AppArmorFs,
     Autofs,
+    Binfmtfs,
     Btrfs,
     Cdfs,
+    Cgroup,
+    Cgroup2,
     Devfs,
+    Devpts,
     Ext2,
     Ext3,
     Ext4,
@@ -40,6 +45,7 @@ pub enum FileSystemName {
     Linsysfs, // todo: should this just be sysfs?
     Mqueuefs,
     Nfs,
+    Nsfs,
     Ntfs,
     Nullfs,
     Procfs,

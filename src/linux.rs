@@ -14,7 +14,6 @@ const BEFS_SUPER_MAGIC: c_long = 0x42465331;
 const BFS_MAGIC: c_long = 0x1badface;
 const BINFMTFS_MAGIC: c_long = 0x42494e4d;
 const BTRFS_TEST_MAGIC: c_long = 0x73727279;
-const CGROUP2_SUPER_MAGIC: c_long = 0x63677270;
 const CIFS_MAGIC_NUMBER: c_long = 0xff534d42;
 const COH_SUPER_MAGIC: c_long = 0x12ff7b7;
 const CONFIGFS_MAGIC: c_long = 0x62656570;
@@ -68,6 +67,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         CIFS_MAGIC_NUMBER => None, // todo
         libc::CODA_SUPER_MAGIC => None, // todo
         COH_SUPER_MAGIC => None, // todo
+        CONFIGFS_MAGIC => None, // todo
         libc::CRAMFS_MAGIC => None, // todo
         libc::DEBUGFS_MAGIC => None, // todo
         DEVFS_SUPER_MAGIC => Some(FileSystemName::Devfs),

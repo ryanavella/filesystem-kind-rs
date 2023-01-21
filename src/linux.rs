@@ -134,7 +134,7 @@ pub fn filesystem(file: &File) -> Result<FileSystemKind, std::io::Error> {
         _ => None,
     };
     Ok(recognized.map_or_else(
-        || FileSystemKind::Unrecognized(Box::new(format!("{x:#X}", f_type))),
+        || FileSystemKind::Unrecognized(Box::new(format!("{f_type:#X}"))),
         FileSystemKind::Recognized,
     ))
 }

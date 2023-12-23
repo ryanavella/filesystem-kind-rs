@@ -16,10 +16,10 @@ readme = "README.md"
 cfg-if = "1.0.0"
 
 [target.'cfg(target_os = "linux")'.dependencies]
-libc = "0.2.139"
+libc = "0.2.151"
 
 [target.'cfg(unix)'.dependencies]
-rustix = {version = "0.36.7", features = ["fs"]}
+rustix = {version = "0.38.28", features = ["fs"]}
 
 [target.'cfg(windows)'.dependencies.winapi]
 version = "0.3.9"
